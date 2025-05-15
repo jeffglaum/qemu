@@ -68,6 +68,7 @@ enum {
     SBSA_GIC_REDIST,
     SBSA_GIC_ITS,
     SBSA_SECURE_EC,
+    SBSA_ESPI,
     SBSA_GWDT_WS0,
     SBSA_GWDT_REFRESH,
     SBSA_GWDT_CONTROL,
@@ -123,6 +124,7 @@ static const MemMapEntry sbsa_ref_memmap[] = {
     /* Space here reserved for more SMMUs */
     [SBSA_AHCI] =               { 0x60100000, 0x00010000 },
     [SBSA_XHCI] =               { 0x60110000, 0x00010000 },
+    [SBSA_ESPI] =               { 0x60140000, 0x00001000 },
     /* Space here reserved for other devices */
     [SBSA_PCIE_PIO] =           { 0x7fff0000, 0x00010000 },
     /* 32-bit address PCIE MMIO space */
@@ -691,6 +693,16 @@ static void create_secure_ec(MemoryRegion *mem)
                                 sysbus_mmio_get_region(s, 0));
 }
 
+static void create_espi(MemoryRegion *mem)
+{
+    hwaddr base = sbsa_ref_memmap[SBSA_ESPI].base;
+    DeviceState *dev = qdev_new("sbsa-espi");
+    SysBusDevice *s = SYS_BUS_DEVICE(dev);
+
+    memory_region_add_subregion(mem, base,
+                                sysbus_mmio_get_region(s, 0));
+}
+
 static void sbsa_ref_init(MachineState *machine)
 {
     unsigned int smp_cpus = machine->smp.cpus;
@@ -804,6 +816,8 @@ static void sbsa_ref_init(MachineState *machine)
     create_pcie(sms);
 
     create_secure_ec(secure_sysmem);
+
+    create_espi(sysmem);
 
     sms->bootinfo.ram_size = machine->ram_size;
     sms->bootinfo.board_id = -1;
