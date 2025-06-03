@@ -3912,12 +3912,17 @@ foreach target : target_dirs
                  build_by_default: false,
                  name_suffix: 'fa')
 
+  libftdi_dep = declare_dependency(
+    #link_args: ['/home/jeffglaum/repos/qemu/hw/misc/lib/linux/libft4222.a', '-lstdc++']
+    link_args: ['/home/jeffglaum/repos/qemu/hw/misc/lib/linux/libft4222.a', '-Wl,-rpath,/usr/local/lib', '-ldl', '-lpthread', '-lrt', '-lstdc++']
+  )
+
   if target.endswith('-softmmu')
     execs = [{
       'name': 'qemu-system-' + target_name,
       'win_subsystem': 'console',
       'sources': files('system/main.c'),
-      'dependencies': []
+      'dependencies': [libftdi_dep]
     }]
     if host_os == 'windows' and (sdl.found() or gtk.found())
       execs += [{
