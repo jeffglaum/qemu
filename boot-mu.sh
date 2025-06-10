@@ -9,6 +9,8 @@
 -smbios type=0,vendor="Project Mu",version="mu_tiano_platforms-v9.0.0-51-gaf696faf",date=05/14/2025,uefi=on \
 -smbios type=1,manufacturer=Palindrome,product="QEMU SBSA",family=QEMU,version="9.0.0",serial=42-42-42-42 \
 -smbios type=3,manufacturer=Palindrome,serial=42-42-42-42,asset=SBSA,sku=SBSA \
--serial tcp:127.0.0.1:50001,server,nowait
+-serial tcp:127.0.0.1:5800,server,nowait \
+-hda /mnt/c/users/jeffgla/Desktop/GCC-AARCH64/WinVOS.qcow2 
 
-telnet 127.0.0.1 50001
+#-serial tcp:127.0.0.1:50001,server,nowait \
+#telnet 127.0.0.1 50001

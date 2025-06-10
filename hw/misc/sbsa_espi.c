@@ -128,17 +128,9 @@ static void Init3743B(FT_HANDLE ftHandle)
 
 static uint64_t sbsa_espi_read(void *opaque, hwaddr addr, unsigned size)
 {
-    //SBSAeSPIState *s = opaque;
-    //uint8_t buf = 0;
-
     printf("INFO: sbsa_espi_read (enter).\n");
 
-    //if (read(s->fd, &buf, 1) == 1) {
-        //printf("INFO: sbsa_espi_read (exit - read).\n");
-        //return buf;
-    //}
-
-    printf("INFO: sbsa_espi_read (exit - read fail).\n");
+    printf("INFO: sbsa_espi_read (exit).\n");
     return 0;
 }
 
@@ -150,7 +142,7 @@ static void sbsa_espi_write(void *opaque, hwaddr addr, uint64_t val, unsigned si
     int8_t j;
 
 
-    printf("INFO: sbsa_espi_write (enter), byte=%d.\n", byte);
+    printf("INFO: sbsa_espi_write (enter), hwaddr=0x%lx, byte=%d.\n", addr, byte);
 
     switch(byte) {
         case 0:
